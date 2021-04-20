@@ -30,8 +30,8 @@ typedef struct
 {
 	double Q_fuel;    /**< Lower Heating Value of fuel (Poder calorífico 
 						 inferior del combustible) */
-	double y;         /**< H/C ratio of fuel (Relación entre el número de 
-						 atomos de H y C en la molécula del combustible)  */
+	double y;         /**< H/C ratio of fuel (Relationship between the number of
+							H and C atoms in the fuel molecule)  */
 	double alpha;     /**< Number of C atoms in the fuel molecule */
 	double beta;      /**< Number of H atoms in the fuel molecule */
 	double gamma;     /**< Number of O atoms in the fuel molecule */
@@ -51,9 +51,9 @@ typedef struct
 	int Nval;				/**< Number of Valves (Número de válvulas) */
 	int type_dat;			/**< Identifies how input Lv 0:"Exponential", 1:"Sin²", 2:"user-defined" (Identifica cómo se ingresa la alzada: mediante una ley predefinida o mediante un archivo) */
 	vector<double> Cd;		/**< Discharge Coefficient */
-	vector<double> Lv;		/**< Arreglo que contiene la alzada de la válvula  */
-	double* dx_tube;	    /**< Size of tube's element connected (Tamanio del elemento del tubo conectado) */
-	double* Area_tube;	    /**< Area of tube's element connected (Area del nodo del tubo conectado) */
+	vector<double> Lv;		/**< Arrangement containing valve lift  */
+	double* dx_tube;	    /**< Size of tube's element connected */
+	double* Area_tube;	    /**< Area of tube's element connected */
 	double* twall_tube;	    /**< Temperature of tube's element connected (Temperatura del nodo del tubo conectado) */
 	double* dAreax_tube;	/**< Area differential of tube's element connected (derivada del area del nodo del tubo conectado) */
 	double angle_V0;		/**< Valve's Angle opening (Angulo de apertura de la válvula) */
@@ -70,14 +70,14 @@ typedef struct
 typedef struct
 {
 	int pulse;          			/**< Identifies law type of fuel injection (Identifica el tipo de ley con que se inyecta el combustible) */
-	double m_inj;					/**< Fuel mass injected for cycle (Masa de combustible inyectada por ciclo) */
-	double dtheta_inj;				/**< Injection duration, measure in crank angle  (Duracion de la inyeccion (medida en angulo de giro del cigüeñal) )*/
-	double T_fuel;					/**< Temperature of fuel injection (Temperatura de inyeccion del combustible) */
-	double theta_inj_ini; 			/**< Angle of start the injection (Angulo de inicio de la inyeccion) */
-	double theta_id;				/**< Angle delay of ignition (Angulo de retardo a la ignicion (puede ser un dato o calcularse internamente)) */
+	double m_inj;					/**< Fuel mass injected for cycle */
+	double dtheta_inj;				/**< Injection duration, measure in crank angle */
+	double T_fuel;					/**< Temperature of fuel injection */
+	double theta_inj_ini; 			/**< Angle of start the injection  */
+	double theta_id;				/**< Angle delay of ignition (can be data or calculated internally) */
 	int ignition_delay_model;		/**< Ignition delay Model 0:"L-W", 1:"H-H", 2:"user-defined"*/
-	double integral;				/**< Variable que se utiliza para ir integrando la razón t/t_d en el tiempo  */
-	vector<double> mfdot_array; 	/**< Injected Mass of fuel in angle's function (Arreglo que contiene la masa inyectada de combustible en función del ángulo) */
+	double integral;				/**< Variable used to integrate the ratio t / t_d over time  */
+	vector<double> mfdot_array; 	/**< Injected Mass of fuel in angle's function (Array containing the fuel injected mass as a function of the angle) */
 }injection;
 
 /**
@@ -85,10 +85,10 @@ typedef struct
 */
 typedef struct
 {
-	double theta_ig_0;				/**< Start angle of combustion (Angulo de inicio de la combustión) */
+	double theta_ig_0;				/**< Start angle of combustion */
 	double dtheta_comb;				/**< Angle differential of combustion */
 	double phi;						/**< Equivalence relationship [(a/f)/(a/f)steq] (Relación de equivalencia) */
-	double phi_ig;					/**< Equivalence relationship at start combustion (Relación de equivalencia al inicio de la combustión) */
+	double phi_ig;					/**< Equivalence relationship at start combustion */
 	double a_wiebe;					/**< Combustion Efficiency Parameter */
 	double m_wiebe;					/**< Shape Parameter */
 	int combustion_model;			/**< Combustion Model  0: "user-defined", 1: "Wiebe-2" (default), 2: "Wiebe-3", 3: "Watson" , 4: "<none>"*/
@@ -140,26 +140,26 @@ class Cylinder: public Component
 	vector<double> getMass();
 	void setMass(int, double);
 
-	double theta_0;           /**< Piston's Initial position angle (Angulo correspondiente a la posicion inicial del piston) */
+	double theta_0;           /**< Piston's Initial position angle */
  protected:
 	
  private:
 	double Bore;              /**< Cylinder's diameter*/
-	double Vol_clearance;     /**< Combustion's chamber's Volume (Volumen de la camara de combustion) */
+	double Vol_clearance;     /**< Combustion's chamber's Volume */
 	double rod_length;		  /**< Rod's Length */
-	double head_chamber_area; /**< Combustion's chamber's Head Area (Area de la superficie de la camara) */
-	double piston_area;       /**< Piston's Head area (Area de la cabeza del piston) */
-	double delta_ca;          /**< Angle between crancks (only for opposed pistons) (Angulo entre cigüeñales (para motores de pistones opuestos)) */
+	double head_chamber_area; /**< Combustion's chamber's Head Area (Surface area of the chamber) */
+	double piston_area;       /**< Piston's Head area = pi/4 * Bore^2 */
+	double delta_ca;          /**< Angle between crankshafts (only for opposed pistons) */
 	vector<double> Twall;     /**< Cylinder's Wall Temperature (size=1: homogeneus, size=4: piston, intake, exhaust, liners) */
 	vector<double> prop; 
 	vector<double> U_crevice;
 	vector<double> data_crevice;
-	vector<double> mass_C;    /**< array of Masses inside Cylinder (Arreglo con las masas dentro del cilindro) */
+	vector<double> mass_C;    /**< array of Masses inside Cylinder */
 	int model_ht;             /**< Heat transfer model (0:"Annand", 1:"Woschni 1", 2:"Woschni 2", 3:"Taylor") */
-	double factor_ht;	      /**< Factor to heat transfer law (Factor multiplicativo que se aplica a la ley de transferencia de calor) */
-	bool scavenge;			  /**< Indicates if will be used scavenge (Indica si se va a utilizar un modelo de barrido) */
+	double factor_ht;	      /**< Multiplicative factor applied to heat transfer law */
+	bool scavenge;			  /**< Indicates if will be used scavenge */
 	int scavenge_type;	  /**< Scavenge type ("uniflow", "scre", "yam1", "yam6", "cd", "qubcr") */
-	int type_ig;			  /**< Ignition type 1:diesel , 0:naftero */
+	int type_ig;			  /**< Ignition type 0:gasoline (SI Engine), 1: Diesel (CI Engine) */
 	bool full_implicit;
 	Scavenge scavenge_data;		
 	injection injection_data;

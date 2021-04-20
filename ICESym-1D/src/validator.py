@@ -25,6 +25,11 @@ def assignOptional(kargs,arg,opt):
 		
 def validateSize(kargs, arg,nameClass,size):
 	if(arg in kargs.keys()):
+		# print(arg)
+		# print(nameClass)
+		# print("WTFARG", kargs[arg])
+		# print("ARG", len(kargs[arg]))
+		# print("SIZE", size)
 		if(len(kargs[arg])==size):
 			return 1
 	print 'Fail initialization in [%s,%s], argument has not the requered size' % (arg,nameClass)

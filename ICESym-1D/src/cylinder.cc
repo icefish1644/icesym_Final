@@ -175,7 +175,7 @@ void Cylinder::initFortran(int icyl,dataSim &globalData){
 	l2 = this->U_crevice.size();
 	int l3 = this->data_crevice.size();
 	initialize_arrays(&icyl, &(this->prop[0]),&(this->U_crevice[0]), &(this->data_crevice[0]),&l1,&l2,&l3);
-	cout<<"ya inicializo arrays fortran"<<endl;
+	cout<<"I already initialize fortran arrays"<<endl;
 }
 
 /**
@@ -261,11 +261,11 @@ void Cylinder::calculate(dataSim &globalData){
 void Cylinder::calculate_state(double* atm, dataSim &globalData){
 	dataCylinder myData;
 	makeStruct(myData);
-	cout<<"crea struct"<<endl;
+	cout<<"create struct"<<endl;
 	state_initial_cylinder(&(this->icyl), &myData, &atm[0], &globalData, &(this->state_ini[0]), &(this->mass_C[0]), &(this->Twall[0]));
-	cout<<"state initital pasa"<<endl;
+	cout<<"state initial passes"<<endl;
 	undoStruct(myData);
-	cout<<"pasa undo"<<endl;
+	cout<<"pass undo"<<endl;
 }
 
 /**

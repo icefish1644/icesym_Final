@@ -4,8 +4,8 @@ import sys
 import os
 from simCythonCPP import Simulator
 
-sys.path.append("/home/etekken/Cimec/icesym/NewGUI/test2/icesym/ICESym-NEWGUI/saves")
-data = __import__("multicyl4TSI")
+sys.path.append("/mnt/c/Users/Gilbert/Desktop/icesym2/ICESym-GUI/saves")
+data = __import__("compBiCyl")
 now = time.time()
 Sim = Simulator(**data.kargs)
 print "termina de inicializar"

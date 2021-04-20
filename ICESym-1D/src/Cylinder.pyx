@@ -147,7 +147,7 @@ cdef class Cylinder:
 		
 		# By the time, we use a 1-zone model for the cylinder, so the
 		# number of nodes must be 1+nvi+nve. For the MRCVC engine, we
-		# add 2 extra nodes in order to save the state at the 'neighboor'
+		# add 2 extra nodes in order to save the state at the 'neighbour'
 		# chambers
 		# if(not(kargs['engine_type']==2)):
 			# Alternative - Opposed-piston
@@ -242,7 +242,7 @@ cdef class Cylinder:
     	#condiciones para scavenge
 		cdef Scavenge scavenge_data
 		if not(kargs['scavenge']==0):
-			print "tengo scavenge"
+			print "Scavange accepted"
 			if(kargs['scavenge_type']==1): # scre
 				scavenge_data.val_1 = -1.6709
 				scavenge_data.val_2 = 0.1899
@@ -274,10 +274,10 @@ cdef class Cylinder:
 		if not('name' in fargs.keys()):
 			# if the name of fuel is not specified, the user can
 			# define the fuel properties.
-			# The default fuel is iso-octane
-			fuel_data.Q_fuel = validatePositive(fargs,'Q_fuel','Fuel-Cylinder',44.3e6)
-			fuel_data.alpha	 = validatePositive(fargs,'alpha','Fuel-Cylinder',8.0)
-			fuel_data.beta	 = validatePositive(fargs,'beta','Fuel-Cylinder',18.0)
+			# The default fuel is iso-octane_h // currently using diesel_h
+			fuel_data.Q_fuel = validatePositive(fargs,'Q_fuel','Fuel-Cylinder',43.0e6)
+			fuel_data.alpha	 = validatePositive(fargs,'alpha','Fuel-Cylinder',10.8)
+			fuel_data.beta	 = validatePositive(fargs,'beta','Fuel-Cylinder',18.7)
 			fuel_data.gamma	 = validatePositive(fargs,'gamma','Fuel-Cylinder',0.0)
 			fuel_data.delta	 = validatePositive(fargs,'delta','Fuel-Cylinder',0.0)
 			if not('alpha' in fargs.keys() or 'beta' in fargs.keys()):
@@ -296,10 +296,9 @@ cdef class Cylinder:
 				fuel_data.y  = beta/alpha
 				fuel_data.Mw = 12.01*alpha+1.008*beta+ \
 				    16.0*gamma+14.01*delta
-			fuel_data.hvap_fuel = validatePositive(fargs,'hvap_fuel','Fuel-Cylinder',308000.0)
+			fuel_data.hvap_fuel = validatePositive(fargs,'hvap_fuel','Fuel-Cylinder',250000.0)
 			if not('coef_cp' in fargs.keys()):
-				Afuel = [-2.7835e-01, 9.1396e-02, -4.9209e-05, \
-						  1.0267e-08, -1.5575e+04]
+				Afuel = [-4.5825, 1.2428e-01, -7.2334e-05, 1.6269e-08, 2.6067e+04]
 			else:
 				Afuel = onlyAssert(fargs,'coef_cp','Fuel-Cylinder')
 		else:
@@ -334,10 +333,10 @@ cdef class Cylinder:
 			auxValve.Lv 	     = doublevec_factory(0)
 			auxValve.Lvmax 	     = validatePositive(vargs[i],'Lvmax','Valve-Cylinder',0)
 			auxValve.valve_model = validateInList(vargs[i],'valve_model','Valve-Cylinder',[0,1],0)
-			if auxValve.type_dat == 0: # ley senoidal cuadrada, a calcular en Fortran
+			if auxValve.type_dat == 0: # Square Sine law, to be calculated in Fortran
 				auxValve.Lv.push_back(-1)
 				auxValve.Lv.push_back(-1)
-			elif auxValve.type_dat == -1:  # ley exponencial, a calcular en Fortran
+			elif auxValve.type_dat == -1:  # Exponential Law, to be calculated in Fortran
 				auxValve.Lv.push_back(-1)
 				auxValve.Lv.push_back(-1)
 			#	else:   # se debe ingresar un array(2x721) y lo mapea a un array unidimensional [ang,val,ang,val...]
@@ -415,16 +414,16 @@ cdef class Cylinder:
 			combustion_data.combustion_model = validateInList(cargs,'combustion_model','Combustion-Cylinder',[0,1,2,3,4],4)
 		
 		combustion_data.start_comb	= assignOptional(cargs,'start_comb',1)
-		if(combustion_data.combustion_model==0):
-			xbdot = onlyAssert(cargs,'xbdot_array','Combustion-Cylinder')
+		# if(combustion_data.combustion_model==0):
+		#	xbdot = onlyAssert(cargs,'xbdot_array','Combustion-Cylinder')
 			#for i in range(len(xbdot[0])): #[key1,value1,key2,value2,....,keyN,valueN]
 			#	combustion_data.xbdot_array.push_back(xbdot[0][i])
 			#	combustion_data.xbdot_array.push_back(xbdot[1][i])		
-			for i in range(len(xbdot)): #[key1,value1,key2,value2,....,keyN,valueN]
-				combustion_data.xbdot_array.push_back(xbdot[i][0])
-				combustion_data.xbdot_array.push_back(xbdot[i][1])
+		#	for i in range(len(xbdot)): #[key1,value1,key2,value2,....,keyN,valueN]
+		#		combustion_data.xbdot_array.push_back(xbdot[i][0])
+		#		combustion_data.xbdot_array.push_back(xbdot[i][1])
 				
-		#instancio la clase
+		#instanciate the class
 		self.thisptr = new_Cylinder(nnod, ndof, nnod_input, implicit, state_ini, histo, label, Bore, crank_radius,
 					    Vol_clearance, rod_length, head_chamber_area, piston_area, theta_0,
 					    delta_ca, twall, prop, U_crevice, data_crevice, mass_C, model_ht,

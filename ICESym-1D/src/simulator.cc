@@ -174,11 +174,11 @@ void Simulator::makeSimulation(){
 	// cout<<"hizo tank"<<endl;
 	Xn1.resize(Xn.size());
 	/*
-	  Por cada tube, solo tengo 2 estados de referencia (left y right), tomo el 
-	  correspondiente dependiendo de que objeto tenga a los lados
-	  Si es junction, depende del orden de los nodos de la union
-	  Si es cylinder, depende si es de admision o escape, y su ubicacion alli
-	  Si es tube, tank y atmosphere es trivial
+	  For each tube, I only have 2 reference states (left and right), I take the
+	  corresponding depending on what object you have on the sides
+	  If it is junction, it depends on the order of the junction nodes
+	  If it is cylinder, it depends if it is intake or exhaust, and its location there
+	  If it is tube, tank and atmosphere it is trivial
 	*/
 	for(int k=0;k<ntubes;k++){
 		if(strcomp(tubes[k].tleft,str_junction)){
@@ -536,7 +536,7 @@ void Simulator::solverEngine(){
 					<<crank_angle<<" deg"<<" - rpm: "<<rpms[irpm]<<endl;
 
 			if(nappend>0){
-				if(iteration%nappend==0){ // aca usar nappend
+				if(iteration%nappend==0){ // here use nappend
 					saveHisto(iteration<=nappend);
 				}
 			}
@@ -968,7 +968,7 @@ void Simulator::createDir(bool newRPM){
    \brief Open Units files in Fortran for save extra's histo
 */
 void Simulator::openFortranUnits(){
-	int nu = 8; //empiezo desde la unidad 8	
+	int nu = 8; // Start from unit 8
 	for(int i=0;i<ncyl;i++){
 		if(this->cylinders[i].extras){
 			this->cylinders[i].nunit = nu;

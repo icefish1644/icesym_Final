@@ -112,7 +112,7 @@ Val['tube']			=		#numero del tube conectado
 Valves.append(Val)
 Cyl['exhaust_valves'].append(Val) 		
 
-#injection (solo si diesel, si naftero dejar solo la declaracion del dict())
+#injection (only if diesel, if naphtero leave only the declaration of the dict ())
 Cyl['injection'] = dict()
 Cyl['injection']['pulse']			=
 Cyl['injection']['m_inj']			=

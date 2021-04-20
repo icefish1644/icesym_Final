@@ -1297,45 +1297,45 @@ contains
        xbdot = xbdot + Ft*dexp(pot_t) * WCt * Et * &
             (modulo(theta-theta_ig,theta_cycle)*180.0d0/pi)**(Et-1.0)
        xbdot = omega * xbdot * 180.0d0/pi
-    elseif(cyl(icyl)%combustion_data%combustion_model.eq.3) then
-       theta_id = cyl(icyl)%injection_data%theta_id
-       phi_ig   = cyl(icyl)%combustion_data%phi_ig
-       rpm      = 30.*omega/pi
+   !  elseif(cyl(icyl)%combustion_data%combustion_model.eq.3) then
+   !     theta_id = cyl(icyl)%injection_data%theta_id
+   !     phi_ig   = cyl(icyl)%combustion_data%phi_ig
+   !     rpm      = 30.*omega/pi
 
-       coef     = (/ 2.0d0 + 1.25d-8*(500.0/3.0*theta_id)**2.4, 5000d0/)
-       coefp    = (/ 14.2d0/phi_ig**0.644, 0.79d0*(14.2d0/phi_ig**0.644)**0.25 /)
-       beta     = 1d0 - 0.926d0*phi_ig**0.37/(500.0/3.0*theta_id/rpm)**0.26
+   !     coef     = (/ 2.0d0 + 1.25d-8*(500.0/3.0*theta_id)**2.4, 5000d0/)
+   !     coefp    = (/ 14.2d0/phi_ig**0.644, 0.79d0*(14.2d0/phi_ig**0.644)**0.25 /)
+   !     beta     = 1d0 - 0.926d0*phi_ig**0.37/(500.0/3.0*theta_id/rpm)**0.26
 
-       tau = modulo(theta-theta_ig*pi/180.,theta_cycle)/dtheta_comb
+   !     tau = modulo(theta-theta_ig*pi/180.,theta_cycle)/dtheta_comb
 
-       x_burned = beta*(1.-(1.-tau**coef(1))**coef(2)) + &
-            (1.-beta)*(1.-dexp(-coefp(1)*tau**coefp(2)))
+   !     x_burned = beta*(1.-(1.-tau**coef(1))**coef(2)) + &
+   !          (1.-beta)*(1.-dexp(-coefp(1)*tau**coefp(2)))
 
-       xbdot = omega/dtheta_comb*(beta*coef(1)*coef(2)*tau**(coef(1)-1.)* &
-            (1.-tau**coef(1))**(coef(2)-1) + &
-            (1.-beta)*coefp(1)*coefp(2)*tau**(coefp(2)-1.)*dexp(-coefp(1)*tau**coefp(2)))
-    elseif(cyl(icyl)%combustion_data%combustion_model.eq.0) then
-       theta_deg = theta*180./pi
+   !     xbdot = omega/dtheta_comb*(beta*coef(1)*coef(2)*tau**(coef(1)-1.)* &
+   !          (1.-tau**coef(1))**(coef(2)-1) + &
+   !          (1.-beta)*coefp(1)*coefp(2)*tau**(coefp(2)-1.)*dexp(-coefp(1)*tau**coefp(2)))
+   !  elseif(cyl(icyl)%combustion_data%combustion_model.eq.0) then
+   !     theta_deg = theta*180./pi
 
-       call interpolant(cyl(icyl)%combustion_data%xbdot_array(:,1), &
-            cyl(icyl)%combustion_data%xbdot_array(:,2), theta_deg, xbdot)
-       k = iminloc(dabs(cyl(icyl)%combustion_data%xbdot_array(:,2)-xbdot))
-       if(cyl(icyl)%combustion_data%xbdot_array(k,2).gt.xbdot) &
-            k = k-1
-       x_burned = 0.
-       indx     = k-1
-       do k=1,indx
-          x_burned = x_burned + .5* &
-               (cyl(icyl)%combustion_data%xbdot_array(k+1,1) - &
-               cyl(icyl)%combustion_data%xbdot_array(k,1))* &
-               (cyl(icyl)%combustion_data%xbdot_array(k+1,2) + &
-               cyl(icyl)%combustion_data%xbdot_array(k,2))
-       end do
-       x_burned = x_burned + .5* &
-            (theta_deg-cyl(icyl)%combustion_data%xbdot_array(k,1))* &
-            (xbdot+cyl(icyl)%combustion_data%xbdot_array(k,2))
+   !     call interpolant(cyl(icyl)%combustion_data%xbdot_array(:,1), &
+   !          cyl(icyl)%combustion_data%xbdot_array(:,2), theta_deg, xbdot)
+   !     k = iminloc(dabs(cyl(icyl)%combustion_data%xbdot_array(:,2)-xbdot))
+   !     if(cyl(icyl)%combustion_data%xbdot_array(k,2).gt.xbdot) &
+   !          k = k-1
+   !     x_burned = 0.
+   !     indx     = k-1
+   !     do k=1,indx
+   !        x_burned = x_burned + .5* &
+   !             (cyl(icyl)%combustion_data%xbdot_array(k+1,1) - &
+   !             cyl(icyl)%combustion_data%xbdot_array(k,1))* &
+   !             (cyl(icyl)%combustion_data%xbdot_array(k+1,2) + &
+   !             cyl(icyl)%combustion_data%xbdot_array(k,2))
+   !     end do
+   !     x_burned = x_burned + .5* &
+   !          (theta_deg-cyl(icyl)%combustion_data%xbdot_array(k,1))* &
+   !          (xbdot+cyl(icyl)%combustion_data%xbdot_array(k,2))
 
-       xbdot = omega * xbdot * 180./pi
+   !     xbdot = omega * xbdot * 180./pi
     end if
 
     dQ_chem = mass_fuel * Q_fuel * xbdot

@@ -9,7 +9,7 @@ data=__import__(test)
 now = time.time()
 
 Sim = Simulator(**data.kargs)
-print "termina de inicializar"
+print "finish initializing"
 Sim.printData()
 Sim.solver()
 now2 = time.time()

@@ -1,1 +1,0 @@
-pyinstaller --onefile --windowed --name="icesym" icesym_onefile.spec

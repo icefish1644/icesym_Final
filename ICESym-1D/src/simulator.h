@@ -111,7 +111,7 @@ class Simulator
 	int ncycles;					/**< Number of cycles for rpm */
 	int icycle;						/**< Actual cycle */
 	int lcycle;						/**< Last cycle */
-	unsigned int iAtm;				/**< Indice de la atmosfera en el arreglo Global */
+	unsigned int iAtm;				/**< Atmosphere index in the Global arrangement*/
 	vector<int> ig_order;			/**< Ignition Order of Cylinder's */
 	double rho_atm;					/**< Reference density */
 	double u_atm;					/**< Reference velocity */

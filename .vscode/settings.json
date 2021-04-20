@@ -1,0 +1,6 @@
+{
+    "python.pythonPath": "/home/jteh008/.virtualenvs/icesym-GUI/bin/python",
+    "files.associations": {
+        "ostream": "cpp"
+    }
+}

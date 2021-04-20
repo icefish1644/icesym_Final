@@ -149,7 +149,7 @@ Valves0['Nval'] = 2				#Numero de valvulas.
 Valves0['histo'] = 1			#Lista de nodos para los cuales se guardan datos.
 Valves0['valve_model'] = 0  #Modelo de valvula, 0 o 1
 Valves0['type_dat'] = 1			#Tipo de Perfil de Leva: 0 = seno cuadrado, 1 = definido por usuario.
-Valves0['Lv'] =  LvI			#Arreglos de pares [Angulo(deg),Altura(m)].
+Valves0['Lv'] =  LvI			#Pair arrangements [Angle (deg), Height (m)]
 Valves0['Lvmax'] = Lvmaxi		#Maxima altura de apertura.
 Valves0['angle_V0'] = IVO		#Angulo Apertura.
 Valves0['angle_VC'] = IVC		#Angulo Cierre.
